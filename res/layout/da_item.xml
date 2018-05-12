@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Issue Title"
+        android:background="@color/white"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/des"
+        android:paddingTop="2dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/title"
+        android:text="Description"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="20dp" />
+
+
+    <TextView
+        android:id="@+id/assignee"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/textView4"
+        android:background="@color/grey"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/createdby"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textView4"
+        android:background="@color/grey"
+        android:text="TextView" />
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:id="@+id/layoutOne"
+        android:background="@color/grey"
+        android:layout_below="@+id/textViewUserEmail">
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/coordinates"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/textView2"
+        android:background="@color/grey"
+        android:text="TextView" />
+    </LinearLayout>
+
