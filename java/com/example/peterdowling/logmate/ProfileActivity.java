@@ -38,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private Button lowPriorityButton;
     private Button mediumPriorityButton;
     private Button highPriorityButton;
+    private Button closed_issues;
     private Button LogIssueButton;
     private Button getData;
     /**
@@ -93,6 +94,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         lowPriorityButton = (Button) findViewById(R.id.lowPriorityButton);
         mediumPriorityButton = (Button) findViewById(R.id.mediumPriorityButton);
         highPriorityButton = (Button) findViewById(R.id.highPriorityButton);
+        closed_issues = (Button) findViewById(R.id.closed_issues);
 
         databaseIssue = FirebaseDatabase.getInstance().getReference("Issue");
 
@@ -103,6 +105,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         lowPriorityButton.setOnClickListener(this);
         mediumPriorityButton.setOnClickListener(this);
         highPriorityButton.setOnClickListener(this);
+        closed_issues.setOnClickListener(this);
         buttonLogout.setOnClickListener(this);
         LogIssueButton.setOnClickListener(this);
         getData.setOnClickListener(this);
@@ -116,14 +119,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 allIssueList.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     Issue getData = postSnapshot.getValue(Issue.class);
-                    //String priority = getData.getPriority();
-                    String convertedToString = String.valueOf(getData);
-                    //Log.e("Priority: ", priority);
                     allIssueList.add(getData);
                 }
             }
-
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("The read failed: ", Integer.toString(databaseError.getCode()));
@@ -132,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void getIssueByPriority(final String thePriority){
+    private void getIssueByPriority(final String thePriority,final String theStatus){
         databaseIssue.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -141,17 +139,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     Issue thisData = postSnapshot.getValue(Issue.class);
                     String priority = thisData.getPriority();
                     String theAssignee = thisData.getAssignee();
+                    String status = thisData.getStatus();
                     //String convertedToString = String.valueOf(getData);
                     //Log.e("Priority: ", priority);
-
                     //Adds elements to the list if they meet the conditions
-                    if(priority.equals(thePriority) && theAssignee.equals(currentUser)){
+                    if(priority.equals(thePriority) && theAssignee.equals(currentUser) && status.equals(theStatus)){
                         allIssueList.add(thisData);
                     }
                 }
             }
-
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("The read failed: ", Integer.toString(databaseError.getCode()));
@@ -159,6 +155,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
 
     }
+    private void getByStatus(final String theStatus){
+        databaseIssue.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                allIssueList.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Issue thisData = postSnapshot.getValue(Issue.class);
+                    String status = thisData.getStatus();
+                    if(status.equals(theStatus)){
+                        allIssueList.add(thisData);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("The read failed: ", Integer.toString(databaseError.getCode()));
+            }
+        });
+
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -174,7 +191,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //if my low prioirty is pressed
         if(view == lowPriorityButton){
             Log.d("Button Pressed",allIssueList.toString() );
-            getIssueByPriority("Low");
+            getIssueByPriority("Low","open");
             //below code added as workaround for issue with activity loading without data.
             //the 250 miliseconds gives time for the above method to populate the ArrayList
             try {
@@ -187,11 +204,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         if(view == mediumPriorityButton){
             Log.d("Button Pressed",allIssueList.toString() );
-            getIssueByPriority("Medium");
+            getIssueByPriority("Medium","open");
             //below code added as workaround for issue with activity loading without data.
             //the 250 miliseconds gives time for the above method to populate the ArrayList
             try {
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -200,11 +217,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         if(view == highPriorityButton){
             Log.d("Button Pressed",allIssueList.toString() );
-            getIssueByPriority("High");
+            getIssueByPriority("High","open");
             //below code added as workaround for issue with activity loading without data.
             //the 250 miliseconds gives time for the above method to populate the ArrayList
             try {
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(600);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            startActivity(new Intent(this, Get_Issue.class));
+        }
+        if(view == closed_issues){
+            Log.d("Button Pressed",allIssueList.toString() );
+            getByStatus("closed");
+            //below code added as workaround for issue with activity loading without data.
+            //the 250 miliseconds gives time for the above method to populate the ArrayList
+            try {
+                TimeUnit.MILLISECONDS.sleep(600);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

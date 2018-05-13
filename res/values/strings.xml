@@ -7,6 +7,8 @@
     <string name="my_low_priority_issues">My Low Priority Issues</string>
     <string name="my_medium_priority_issues">My Medium Priority Issues</string>
     <string name="closed_issues">Closed Issues</string>
+    <string name="pop_b2">Assign to me</string>
+    <string name="pop_b1">Close</string>
 
     <string-array name="array_name">
         <item>Low</item>
