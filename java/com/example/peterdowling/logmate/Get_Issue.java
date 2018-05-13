@@ -74,9 +74,6 @@ public class Get_Issue  extends AppCompatActivity implements View.OnClickListene
                            mDatabase = FirebaseDatabase.getInstance().getReference();
                             mDatabase.child("Issue").child(selectedItem.getIssueID()).child("status").setValue("closed");
                             Log.d("clicked close for: ",mDatabase.toString());
-
-                        }if(id==R.id.two) {
-                            Log.d("clicked Assign for: ",selectedItem.getIssueID());
                         }
                         return true;
                     }
